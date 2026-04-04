@@ -6,6 +6,7 @@ from google.genai import types
 
 parser = argparse.ArgumentParser(description='Chatbot')
 parser.add_argument("user_prompt", type=str, help='User prompt that is given to the Gemini AI')
+parser.add_argument("--verbose", '-v', action='store_true', help="Enable verbose output")
 args = parser.parse_args()
 
 load_dotenv()  
@@ -27,9 +28,10 @@ def main():
     )
     if response.usage_metadata is None:
         raise RuntimeError('API failed and was unable to register token count')
-    
-    print(f'Prompt tokens: {response.usage_metadata.prompt_token_count}')
-    print(f'Response tokens: {response.usage_metadata.candidates_token_count}')
+    if args.verbose:
+        print(f"User prompt: {args.user_prompt}")
+        print(f'Prompt tokens: {response.usage_metadata.prompt_token_count}')
+        print(f'Response tokens: {response.usage_metadata.candidates_token_count}')
     print('Response:')
     print(response.text)
 
