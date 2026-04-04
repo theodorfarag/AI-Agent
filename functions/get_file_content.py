@@ -4,7 +4,7 @@ from functions.config import MAX_CHARS
 def get_file_content(working_directory, file_path):
     try:
         abs_path = os.path.abspath(working_directory)
-        target_file_path = os.path.join(abs_path, file_path)
+        target_file_path = os.path.normpath(os.path.join(abs_path, file_path))
         valid_path = os.path.commonpath([abs_path, target_file_path]) == abs_path
 
         if not valid_path:

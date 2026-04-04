@@ -3,7 +3,7 @@ import os
 def write_file(working_directory, file_path, content):
     try:
         abs_path = os.path.abspath(working_directory)
-        target_file_path = os.path.join(abs_path, file_path)
+        target_file_path = os.path.normpath(os.path.join(abs_path, file_path))
         valid_path = os.path.commonpath([abs_path, target_file_path]) == abs_path
 
         if not valid_path:
@@ -11,7 +11,7 @@ def write_file(working_directory, file_path, content):
         if os.path.isdir(target_file_path):
             return f'Error: Cannot write to "{file_path}" as it is a directory'
         
-        os.makedirs(file_path, exist_ok=True)
+        os.makedirs(os.path.dirname(target_file_path), exist_ok=True)
         with open(target_file_path, 'w') as file:
             file.write(content)
         return f'Successfully wrote to "{file_path}" ({len(content)} characters written)'
