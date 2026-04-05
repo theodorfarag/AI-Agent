@@ -18,7 +18,6 @@ def write_file(working_directory, file_path, content):
 
     except Exception as e:
         return f"Error: {e}"
-    
 
 def main():
     print(write_file("calculator", "pkg/morelorem.txt", "lorem ipsum dolor sit amet"))
