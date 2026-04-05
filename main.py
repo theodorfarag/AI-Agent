@@ -3,6 +3,7 @@ import argparse
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+from prompts import system_prompt
 
 parser = argparse.ArgumentParser(description='Chatbot')
 parser.add_argument("user_prompt", type=str, help='User prompt that is given to the Gemini AI')
@@ -24,7 +25,9 @@ messages = [types.Content(role="user", parts=[types.Part(text=args.user_prompt)]
 def main():
     print("Hello from ai-agent!")
     response = client.models.generate_content(
-        model='gemini-2.5-flash', contents=messages
+        model='gemini-2.5-flash',
+        contents=messages,
+        config=types.GenerateContentConfig(system_instruction=system_prompt),
     )
     if response.usage_metadata is None:
         raise RuntimeError('API failed and was unable to register token count')
